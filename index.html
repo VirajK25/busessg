@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BusesSG: Every bus. Right on time.</title>
+<meta name="description" content="Live arrivals for every bus stop in Singapore. No ads, no sign-up, no clutter.">
+<meta name="theme-color" content="#f5f5f7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%23eef0fa'/%3E%3Crect x='7' y='15' width='26' height='24' rx='5' fill='%235a6490'/%3E%3Crect x='11' y='19' width='18' height='8' rx='2' fill='%23eef0fa'/%3E%3Ccircle cx='34' cy='14' r='8' fill='%23eef0fa' stroke='%235a6490' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f5f7;--ink:#1d1d1f;--mute:#6e6e73;--blue:#0a6cdc;--chip:#e3ecfb;--g:#1e8e3e;--a:#d97706;--r:#d70015}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+h1,h2,h3{font-weight:800;letter-spacing:-.045em;line-height:1}
+.eyebrow{color:var(--blue);font-weight:600;margin-bottom:14px}
+.sub{color:var(--mute);font-size:clamp(1.05rem,2.2vw,1.45rem);line-height:1.4}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:12px max(24px,calc(50% - 560px));background:rgba(245,245,247,.75);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.03em;text-decoration:none}
+.logo{width:34px;height:34px;border-radius:10px;background:#eef0fa;display:grid;place-items:center;box-shadow:0 2px 10px #5a649033}
+.logo svg{width:24px;height:24px}
+.btn{display:inline-block;background:var(--ink);color:#fff;padding:11px 20px;border-radius:99px;font-weight:600;font-size:.92rem;text-decoration:none;transition:transform .2s}
+.btn:hover{transform:scale(1.05)}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.btn.big{padding:15px 30px;font-size:1.05rem}
+
+.hero{text-align:center;padding:84px 24px 0;background:radial-gradient(70% 45% at 50% 0,#dce8ff,transparent)}
+.hero h1{font-size:clamp(3.4rem,10vw,7.5rem);margin-bottom:22px}
+.hero .btn{margin-top:30px}
+.phone{width:min(350px,88vw);height:480px;margin:64px auto 0;border:9px solid var(--ink);border-bottom:0;border-radius:52px 52px 0 0;background:var(--bg);padding:30px 16px 0;overflow:hidden;text-align:left;position:relative;box-shadow:0 40px 90px -30px #0006;animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both}
+.phone::before{content:"";position:absolute;top:10px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#000}
+.phone h4{font-size:1.9rem;font-weight:800;letter-spacing:-.04em;margin-top:14px}
+.tabs{display:flex;background:#e4e4e8;border-radius:12px;padding:3px;margin:12px 0 14px}
+.tabs span{flex:1;text-align:center;padding:8px 0;font-size:.82rem;font-weight:500;border-radius:9px}
+.tabs .on{background:#fff;box-shadow:0 1px 3px #0003}
+.chips{display:flex;gap:8px;margin-bottom:16px;white-space:nowrap}
+.chips span{border-radius:14px;padding:9px 14px;font-size:.78rem;font-weight:600;background:#fff}
+.chips small{display:block;font-weight:400;opacity:.7}
+.chips .on{background:var(--blue);color:#fff}
+@keyframes rise{from{transform:translateY(140px);opacity:0}}
+@keyframes in{from{transform:translateY(16px);opacity:0}}
+
+.list{background:#fff;border-radius:22px;overflow:hidden}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px 16px;border-top:1px solid #0000000f;animation:in .6s both;animation-delay:calc(.7s + var(--i,0)*.1s)}
+.row:first-child{border:0}
+.no{background:var(--chip);color:#0a5ccf;font-weight:700;border-radius:10px;padding:9px 0;min-width:54px;text-align:center;font-size:1.1rem}
+.dest strong{display:block;font-weight:500;font-size:.92rem}
+.dest small{color:var(--mute);font-size:.76rem}
+.eta{font-weight:800;font-size:2.1rem;letter-spacing:-.05em;text-align:right}
+.eta i{font-style:normal;font-size:.78rem;font-weight:600;color:var(--mute);letter-spacing:0;margin-left:2px}
+.sm .eta{font-size:1.5rem}
+.a{color:var(--a)}.r{color:var(--r)}.g{color:var(--g)}
+
+.manifesto{text-align:center;padding:150px 24px 130px}
+.manifesto h2{font-size:clamp(2.6rem,7vw,5rem);margin-bottom:18px}
+.nos{margin-top:110px;font-size:clamp(3.4rem,12vw,9rem);font-weight:800;letter-spacing:-.06em;line-height:.98}
+.nos span{display:block}
+.nos span:nth-child(2){color:#8a8a8e}
+.nos span:nth-child(3){color:#c7c7cc}
+
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
+.card{grid-column:span 2;border-radius:34px;padding:42px 36px;background:#fff;overflow:hidden;position:relative}
+.card.w{grid-column:span 3}
+.card h3{font-size:clamp(2rem,3.4vw,2.8rem);margin-bottom:14px}
+.card p{color:var(--mute);line-height:1.45;font-size:1.05rem}
+.dark{background:#000;color:#fff}
+.dark p{color:#98989d}
+.dark .eyebrow{color:#2f9bff}
+.dark .list{background:#1c1c1e}
+.dark .no{background:#1b2a44;color:#4da3ff}
+.dark .dest small,.dark .eta i{color:#98989d}
+
+.field{display:flex;justify-content:space-between;border:2px solid #2f8bff;border-radius:16px;padding:14px 18px;background:#1c1c1e;margin:28px 0 12px;color:#fff;font-size:1.1rem}
+.field b{font-weight:400}
+.field b::after{content:"";border-right:2px solid #2f8bff;margin-left:2px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.res{background:#1c1c1e;border-radius:18px;color:#fff}
+.res div{padding:13px 18px;border-top:1px solid #ffffff14;font-weight:500}
+.res div:first-child{border:0}
+.res small{display:block;color:#98989d;font-weight:400;font-size:.82rem;margin-top:2px}
+
+.lav{background:linear-gradient(165deg,#e1e3ff,#f3dcea)}
+.lav .list{margin-top:26px;box-shadow:0 10px 30px -12px #5a649040}
+.wh{padding:16px 16px 4px;font-weight:700;letter-spacing:-.02em}
+.wh small{display:block;font-weight:400;color:var(--mute);font-size:.78rem}
+.wd{display:flex;justify-content:space-between;align-items:center;background:#1c1c1e;color:#fff;border-radius:24px;padding:18px 22px;margin-top:16px}
+.wd .no{display:inline-block;padding:7px 14px;font-size:1rem}
+.wd p{color:#98989d;font-size:.8rem;margin-top:8px;line-height:1.35}
+.wd .eta{font-size:3.2rem}
+
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.pills span{display:inline-flex;align-items:center;gap:9px;background:var(--bg);border-radius:99px;padding:10px 18px;font-weight:600}
+.pills span::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--c)}
+
+.map{display:block;width:100%;margin-top:26px;border-radius:18px}
+.stops{margin-top:14px;font-size:.9rem;color:#98989d}
+.stops b{color:#fff;font-weight:600}
+
+.split{background:linear-gradient(90deg,#fff 50%,#000 50%);isolation:isolate}
+.split .blend{mix-blend-mode:difference;color:#fff}
+.split .blend p{color:#fff;opacity:.7}
+
+.cta{background:#000;color:#fff;text-align:center;padding:130px 24px 70px;margin-top:100px}
+.cta .logo{width:96px;height:96px;border-radius:28px;margin:0 auto 22px;box-shadow:0 20px 60px #5a649066}
+.cta .logo svg{width:68px;height:68px}
+.cta h2{font-size:clamp(3rem,8vw,5.5rem);margin-bottom:16px}
+.cta .sub{color:#98989d}
+.cta .btn{background:#fff;color:#000;margin-top:34px}
+.cta .priv{margin-top:22px;color:#98989d;font-size:.95rem}.cta .priv a{color:#fff}
+.cta small{display:block;margin-top:110px;color:#6e6e73}
+
+@media(max-width:860px){.card,.card.w{grid-column:span 6;padding:34px 26px}.hero{padding-top:60px}.manifesto{padding:110px 24px 90px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ico" viewBox="0 0 48 48"><rect x="6" y="14" width="28" height="26" rx="5" fill="#5a6490"/><rect x="10" y="18" width="20" height="9" rx="2" fill="#eef0fa"/><circle cx="14" cy="34" r="2.2" fill="#eef0fa"/><circle cx="26" cy="34" r="2.2" fill="#eef0fa"/><circle cx="34" cy="13" r="9" fill="#eef0fa" stroke="#5a6490" stroke-width="3"/><path d="M34 8v5l3.5 2.2" stroke="#5a6490" stroke-width="2.6" fill="none" stroke-linecap="round"/></symbol></svg>
+
+<nav>
+  <a class="brand" href="#top"><span class="logo"><svg><use href="#ico"/></svg></span>BusesSG</a>
+  <a class="btn" href="#get">Get the app</a>
+</nav>
+
+<header class="hero" id="top">
+  <h1>Every bus.<br>Right on time.</h1>
+  <p class="sub">Live arrivals for every bus stop in Singapore.</p>
+  <a class="btn big" href="#get">Get BusesSG</a>
+  <div class="phone" aria-label="BusesSG app showing live arrivals">
+    <h4>BusesSG</h4>
+    <div class="tabs"><span class="on">Saved</span><span>Nearby</span><span>Search</span></div>
+    <div class="chips"><span class="on">Orchard Stn/Tang Plaza<small>09047</small></span><span>Orchard Stn/Lucky Plaza<small>09048</small></span></div>
+    <div class="list">
+      <div class="row" style="--i:0"><b class="no">36</b><div class="dest"><strong>To Changi Airport …</strong><small>Standing · then 9, 17 min</small></div><div class="eta a">Arr</div></div>
+      <div class="row" style="--i:1"><b class="no">77</b><div class="dest"><strong>To Promenade Stn …</strong><small>Seats · then 18, 26 min</small></div><div class="eta">10<i>min</i></div></div>
+      <div class="row" style="--i:2"><b class="no">124</b><div class="dest"><strong>To HarbourFront Int</strong><small>Packed · then 14, 22 min</small></div><div class="eta r">6<i>min</i></div></div>
+      <div class="row" style="--i:3"><b class="no">143</b><div class="dest"><strong>To Jurong East Int</strong><small>Seats · then 12, 20 min</small></div><div class="eta">2<i>min</i></div></div>
+    </div>
+  </div>
+</header>
+
+<section class="manifesto">
+  <p class="eyebrow">Simple by design</p>
+  <h2>Just your buses.</h2>
+  <p class="sub">Nothing between you and your bus.</p>
+  <div class="nos"><span>No ads.</span><span>No sign-up.</span><span>No clutter.</span></div>
+</section>
+
+<main class="wrap grid">
+  <article class="card dark w">
+    <p class="eyebrow">Quick search</p>
+    <h3>Find any stop<br>in seconds.</h3>
+    <p>Type a stop name, road or code. Results appear as you type.</p>
+    <div class="field"><b>orchard</b><span>✕</span></div>
+    <div class="res">
+      <div>Opp Orchard Stn Exit 12<small>13191 · Paterson Rd</small></div>
+      <div>YMCA<small>08041 · Orchard Rd</small></div>
+      <div>Orchard Plaza<small>08137 · Orchard Rd</small></div>
+    </div>
+  </article>
+
+  <article class="card lav w">
+    <p class="eyebrow">Widgets</p>
+    <h3>Right on your<br>home screen.</h3>
+    <p>Add a stop or a single bus. Your next arrival, one glance away.</p>
+    <div class="list sm">
+      <div class="wh">Orchard Stn/Tang Plaza<small>Stop 09047 · Orchard Rd</small></div>
+      <div class="row" style="--i:0"><b class="no">36</b><div class="dest"><strong>To Changi Airport</strong><small>Standing · then 9, 17 min</small></div><div class="eta a">1<i>min</i></div></div>
+      <div class="row" style="--i:1"><b class="no">77</b><div class="dest"><strong>To Promenade Stn</strong><small>Seats · then 18, 26 min</small></div><div class="eta g">10<i>min</i></div></div>
+      <div class="row" style="--i:2"><b class="no">124</b><div class="dest"><strong>To HarbourFront Int</strong><small>Packed · then 14, 22 min</small></div><div class="eta r">6<i>min</i></div></div>
+    </div>
+    <div class="wd"><div><b class="no">190</b><p>To Bishan Int<br>at Orchard Stn/Tang Plaza</p></div><div class="eta g">4<i>min</i></div></div>
+  </article>
+
+  <article class="card">
+    <p class="eyebrow">Crowd level</p>
+    <h3>Know how full before it arrives.</h3>
+    <p>See at a glance whether there’s a seat, standing room, or none.</p>
+    <div class="pills"><span style="--c:var(--g)">Seats</span><span style="--c:var(--a)">Standing</span><span style="--c:var(--r)">Packed</span></div>
+  </article>
+
+  <article class="card dark">
+    <p class="eyebrow">Live tracking</p>
+    <h3>See your bus on the map.</h3>
+    <p>Where it is, how far, and exactly how many stops away.</p>
+    <svg class="map" viewBox="0 0 300 190" role="img" aria-label="Map showing bus 124 approaching the stop">
+      <rect width="300" height="190" fill="#13151a"/>
+      <g fill="none" stroke="#c4c8d6" stroke-width="3" stroke-linecap="round">
+        <path d="M0 40C60 55 110 20 170 30S260 20 300 10"/><path d="M0 150 110 120 190 150 300 100"/>
+        <path d="M80 0 100 80 70 190"/><path d="M200 0 190 90 230 190"/><path d="M130 30 150 100 110 120"/>
+      </g>
+      <path d="M58 158 122 98" stroke="#3b9bff" stroke-width="3" stroke-dasharray="7 7" fill="none"/>
+      <circle cx="58" cy="158" r="7" fill="#3b9bff" opacity=".35"><animate attributeName="r" values="7;14;7" dur="2.2s" repeatCount="indefinite"/></circle>
+      <circle cx="58" cy="158" r="6" fill="#3b9bff" stroke="#fff" stroke-width="2"/>
+      <g font-size="11" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">
+        <rect x="100" y="76" width="48" height="22" rx="11" fill="#fff"/><text x="124" y="91" fill="#000">6 min</text>
+        <rect x="172" y="66" width="52" height="22" rx="11" fill="#d5d7de"/><text x="198" y="81" fill="#000">14 min</text>
+        <rect x="226" y="28" width="52" height="22" rx="11" fill="#d5d7de"/><text x="252" y="43" fill="#000">22 min</text>
+      </g>
+    </svg>
+    <p class="stops"><b>Next, 6 min.</b> 4 stops away, 1.3 km from the stop.</p>
+  </article>
+
+  <article class="card split">
+    <div class="blend">
+      <p class="eyebrow" style="color:#fff">Dark mode</p>
+      <h3>Dark.<br>All the way.</h3>
+      <p>A true dark theme that includes the map. Easy on the eyes, day or night.</p>
+    </div>
+  </article>
+</main>
+
+<footer class="cta" id="get">
+  <div class="logo"><svg><use href="#ico"/></svg></div>
+  <h2>BusesSG</h2>
+  <p class="sub">Every bus. Right on time.</p>
+  <!-- TODO: replace href="#" with your app store link -->
+  <a class="btn big" href="#">Get the app</a>
+  <p class="priv">Your location never leaves your phone. <a href="privacy.html">Privacy policy</a></p>
+  <small>© 2026 BusesSG</small>
+</footer>
+</body>
+</html>
